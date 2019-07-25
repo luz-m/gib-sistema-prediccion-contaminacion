@@ -67,6 +67,75 @@ def generar_arbol (codigo, profundidad=5, estadisticas=True):
   
     #Exportar el arbol en texto
     r = export_text(arbol, feature_names=cabeceras[:-1]) 
+'''
+Created on 10 jun. 2019
+
+@author: Luz Maria Martinez
+'''
+
+from sklearn import tree
+from sklearn.tree.export import export_text
+from sklearn.model_selection import train_test_split
+from sklearn.tree import export_graphviz
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import confusion_matrix, classification_report  
+import numpy as np
+
+
+
+def generar_arbol (codigo, profundidad=5, estadisticas=True):
+    """Genera un arbol de decision (clasificador)
+
+    Devuelve el arbol generado y el porcentaje de acierto al validar el modelo con el conjunto de entrenamiento.
+
+    Parametros:
+    codigo -- codigo de la estacion de calidad del aire
+    profundidad -- profundidad maxima del arbol. Por defecto 5
+    estadisticas -- True si se quiere exportar un fichero con estadisticas. False si no se quiere generar. Por defecto True
+
+    
+    """
+    
+    path = "../data/entrenamiento/" + str(codigo) + "/"
+    
+    f = open(path + "data_tree_" + str(codigo) + ".txt")
+    cab = str(f.readline())[:-1]
+    cab = cab.replace("'","")
+    cab = cab.replace(" ","")
+    cabeceras = cab[1:-1].split(",")
+    l_etiquetas = str(f.readline())[:-1].split(",")
+    atributos = str(f.readline())[:-1].split(",,")
+    f.close()
+
+    l_atributos = []
+    for atributo in atributos:
+        l_atributos.append(atributo.split(","))
+    
+    l_etiquetas = np.array(l_etiquetas)
+    l_atributos = np.array(l_atributos)
+    
+    etiquetas = set(l_etiquetas) 
+    clases = sorted(list(etiquetas))
+
+        
+    #Separamos los datos que vamos a utilizar para entrenar y para validar.
+    #datos de validacion (0.25) / datos de entrenamiento (0.75)
+    X_train, X_test, y_train, y_test = train_test_split(l_atributos,l_etiquetas,test_size = 0.25,random_state = 0)
+    
+    #Normalizacion de los datos
+    sc = StandardScaler()
+    X_train = sc.fit_transform(X_train)
+    X_test = sc.transform(X_test)
+    
+    #Creamos el arbol con la profundidad indicada
+    arbol = tree.DecisionTreeClassifier(max_depth=profundidad, criterion = 'entropy', random_state = 0) 
+    
+    
+    #Entrenamos el arbol
+    arbol.fit(X_train, y_train)
+  
+    #Exportar el arbol en texto
+    r = export_text(arbol, feature_names=cabeceras[:-1]) 
     f=open(path + "export_tree_text_" + str(codigo) + ".txt","w")  
     f.write(r)
     f.close()
@@ -130,4 +199,3 @@ def generar_arbol (codigo, profundidad=5, estadisticas=True):
     
     print(str(codigo) + ": tree created")  
     return (arbol, arbol.score(X_test, y_test))
-    
