@@ -30,6 +30,9 @@ def get_estaciones_control ():
     urlDescargar = "https://datos.madrid.es/egob/catalogo/212629-0-estaciones-control-aire.xls"
     urlGuardar = "../data/estaciones_control/212629-0-estaciones-control-aire.xls"   
 
+    if os.path.exists("../data/estaciones_control") == False:
+        os.mkdir("../data/estaciones_control")
+        
     try:     
         datos_web.descargarArchivosUrl (urlDescargar, urlGuardar, 0)     
     except ValueError as descripcion:
@@ -49,6 +52,9 @@ def get_historicos ():
     
     urlDescargar = 'https://datos.madrid.es/egob/catalogo/201410-0-calidad-aire-diario.dcat'
     urlGuardar = "../data/historico/201410-0-calidad-aire-diario.dcat" 
+    
+    if os.path.exists("../data/historico") == False:
+        os.mkdir("../data/historico")
     
     lista = []
     
@@ -83,7 +89,10 @@ def get_tiempo_real ():
     
     urlDescargar = 'https://datos.madrid.es/egob/catalogo/212531-0-calidad-aire-tiempo-real.dcat'
     urlGuardar = "../data/tiempo_real/212531-0-calidad-aire-tiempo-real.dcat" 
-    
+
+    if os.path.exists("../data/tiempo_real/") == False:
+        os.mkdir("../data/tiempo_real/")
+            
     try:     
         datos_web.descargarArchivosUrl (urlDescargar, urlGuardar, 0)     
         doc = minidom.parse(urlGuardar)
@@ -105,12 +114,15 @@ def get_climatologia_historico():
     
     """
     
-    api_key = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdXptYXJpYS5tdHRAZ21haWwuY29tIiwianRpIjoiN2RhMTJlNmUtZjQwYy00MzM0LTg3ZjQtZDQyYWMyZTVkNDllIiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE1NjE0MDA5ODksInVzZXJJZCI6IjdkYTEyZTZlLWY0MGMtNDMzNC04N2Y0LWQ0MmFjMmU1ZDQ5ZSIsInJvbGUiOiIifQ.qW9CktlZH6615wTVZEZrAwM8RZgKPk5KyXRJrQv7PE4" 
+    api_key = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdXptYXJpYS5tdHRAZ21haWwuY29tIiwianRpIjoiMGRjZWYzNWMtOTExYS00YWI4LTlkY2EtN2M3OGM4ZmUyMDA4IiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE1NjE4MDc0NjgsInVzZXJJZCI6IjBkY2VmMzVjLTkxMWEtNGFiOC05ZGNhLTdjNzhjOGZlMjAwOCIsInJvbGUiOiIifQ.ZGKWOZvIfIcSxeLgdM4dYk1cZoBGW-v3uyB6k_Rm6zI" 
     url = "https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/2014-06-01T00%3A00%3A00UTC/fechafin/2019-05-31T23%3A59%3A59UTC/estacion/3195"
     url2 = "https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/2009-06-01T00%3A00%3A00UTC/fechafin/2014-05-31T23%3A59%3A59UTC/estacion/3195"
     url3 = "https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/2004-06-01T00%3A00%3A00UTC/fechafin/2009-05-31T23%3A59%3A59UTC/estacion/3195"
     url4 = "https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/2001-01-01T00%3A00%3A00UTC/fechafin/2004-05-31T23%3A59%3A59UTC/estacion/3195"    
-    
+
+    if os.path.exists("../data/clima_historico") == False:
+        os.mkdir("../data/clima_historico")
+            
     querystring = {"api_key":api_key}
     
     headers = {
@@ -151,9 +163,12 @@ def get_climatologia_tiempo_real():
     
     """
     
-    api_key = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdXptYXJpYS5tdHRAZ21haWwuY29tIiwianRpIjoiN2RhMTJlNmUtZjQwYy00MzM0LTg3ZjQtZDQyYWMyZTVkNDllIiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE1NjE0MDA5ODksInVzZXJJZCI6IjdkYTEyZTZlLWY0MGMtNDMzNC04N2Y0LWQ0MmFjMmU1ZDQ5ZSIsInJvbGUiOiIifQ.qW9CktlZH6615wTVZEZrAwM8RZgKPk5KyXRJrQv7PE4" 
+    api_key = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdXptYXJpYS5tdHRAZ21haWwuY29tIiwianRpIjoiMGRjZWYzNWMtOTExYS00YWI4LTlkY2EtN2M3OGM4ZmUyMDA4IiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE1NjE4MDc0NjgsInVzZXJJZCI6IjBkY2VmMzVjLTkxMWEtNGFiOC05ZGNhLTdjNzhjOGZlMjAwOCIsInJvbGUiOiIifQ.ZGKWOZvIfIcSxeLgdM4dYk1cZoBGW-v3uyB6k_Rm6zI" 
     url = "https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/28079"
-    
+
+    if os.path.exists("../data/clima_real") == False:
+        os.mkdir("../data/clima_real") 
+            
     querystring = {"api_key":api_key}
 
     headers = {
@@ -289,7 +304,10 @@ def tratar_dataset_climatologia_historico ():
     """    
     
     cont_ficher = 1
-    
+
+    if os.path.exists("../data/entrenamiento") == False:
+        os.mkdir("../data/entrenamiento")   
+            
     f=open("../data/clima_historico/clima_hist.csv","w")
     f.write("anio;mes;dia;temperatura;viento;precipitacion\n")
         
@@ -816,7 +834,6 @@ def tratar_dataset_tiempo_real():
             else:
                 hora = hora -1
         
-        
         valor = str(datos[int(hora)*2+9]) 
         if magnitud != "":    
             fw.write(str(datos[0]) + str(datos[1]) + str(datos[2]) + ";" + magnitud + ";" + str(datos[8]) + "/" + str(datos[7]) + "/" + str(datos[6]) + ";" + str(hora) + ":00" + ";" + str(valor) + "\n")
@@ -824,5 +841,5 @@ def tratar_dataset_tiempo_real():
     fr.close()
     fw.close()
 
-    return "../data/tiempo_real/calidad_aire_real_procesado.csv"
 
+    return "../data/tiempo_real/calidad_aire_real_procesado.csv"
