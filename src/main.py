@@ -1,7 +1,7 @@
 '''
 Created on 12 may. 2019
 
-@author: Luz
+@author: Luz Maria Martinez
 '''
 from src.gestion_datos import datasets
 from src.ia import trees
