@@ -47,13 +47,16 @@ def generar_red_neuronal (codigo,  estadisticas=True):
     #datos de pruebas (0.25) de los de entrenamiento (0.75)
     X_train, X_test, y_train, y_test = train_test_split(l_atributos,l_etiquetas,test_size = 0.25,random_state = 0)
 
+    #Creamos la red neuronal 
     red = MLPClassifier(max_iter=100000, hidden_layer_sizes=(50,25))
-    
+    #Entrenamos la red neuronal
     red.fit(X_train, y_train)
 
-    
+    #Predicion de los resultados del bloque test
     y_pred = red.predict(X_test)
+    #Matriz de confusion
     cm = confusion_matrix(y_test, y_pred)
+    #Reportes
     report = classification_report(y_test, y_pred)  
 
 
